@@ -1,0 +1,42 @@
+# HRS_assessmenet
+Sample Project
+
+I am using Terraform to define our infrastructure.
+
+Follwing are the services that i will be creating using Terraform
+
+Virtual Private Cloud (VPC)
+ECS Cluster
+Application Load Balancer (ALB)
+ECS Service and Task Definition
+Route 53 for DNS management and service discovery
+
+Will be creating this as a module
+
+
+
+Jenkins-
+
+Install Plugins: Install the following plugins in Jenkins:
+Pipeline: Allows defining the pipeline as code using a Jenkinsfile.
+Docker Pipeline: Integrates Docker with Jenkins pipelines.
+AWS CLI: Integrates Jenkins with AWS services via CLI commands.
+Amazon ECR Plugin (if you're using ECR for Docker registry).
+AWS Credentials Plugin: To securely store AWS credentials in Jenkins.
+
+Explanation:
+
+Build Stage: Builds the Docker image for your Java application.
+Test Stage: Runs tests for the Java application.
+Deploy Stage: Deploys the application using AWS SAM to your AWS environment.
+Make sure to replace placeholders like your-image-name, your-stack-name, your-s3-bucket, your-aws-region, and your-aws-account-id with your actual values.
+
+Also, ensure that Jenkins has appropriate permissions to interact with AWS services, either by using IAM roles or by providing AWS credentials securely through Jenkins credentials plugin.
+
+This Jenkinsfile can be version-controlled along with your application code, providing a consistent and reproducible CI/CD pipeline.
+
+
+
+Python -
+
+This script first connects to ElastiCache for Redis, retrieves data, and then exports it to an S3 bucket in either CSV or JSON format, based on your preference.
