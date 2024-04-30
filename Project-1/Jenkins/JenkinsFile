@@ -1,0 +1,44 @@
+pipeline {
+    agent any
+    
+    environment {
+        DOCKER_IMAGE_TAG = "latest"
+        AWS_REGION = "your-aws-region" # change as per the AWS_REGION
+        AWS_ACCOUNT_ID = "your-aws-account-id" # change it with correct info
+    }
+    
+    stages {
+        stage('Build') {
+            steps {
+                script {
+                    docker.build('your-image-name:$DOCKER_IMAGE_TAG')
+                }
+            }
+        }
+        
+        stage('Test') {
+            steps {
+                sh './gradlew test'
+            }
+        }
+        
+        stage('Deploy') {
+            steps {
+                script {
+                    // Install AWS CLI
+                    sh 'apt-get update && apt-get install -y python3-pip'
+                    sh 'pip3 install awscli'
+                    
+                    // Install AWS SAM CLI
+                    sh 'curl -sSL https://github.com/aws/aws-sam-cli/releases/latest/download/aws-sam-cli-linux-x86_64.zip -o aws-sam-cli.zip'
+                    sh 'unzip aws-sam-cli.zip -d /usr/local/bin/'
+                    
+                    // AWS SAM deployment
+                    sh 'sam validate'
+                    sh 'sam build'
+                    sh "sam deploy --stack-name your-stack-name --s3-bucket your-s3-bucket --capabilities CAPABILITY_IAM --region $AWS_REGION"
+                }
+            }
+        }
+    }
+}
